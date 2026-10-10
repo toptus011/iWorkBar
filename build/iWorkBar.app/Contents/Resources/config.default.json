@@ -1,0 +1,47 @@
+{
+  "wersja": 2,
+  "pelnaSzerokosc": false,
+  "pokazEsc": true,
+  "odczytFormatowania": true,
+  "aplikacje": {
+    "Pages": {
+      "przyciski": [
+        { "typ": "cofnij" },
+        { "typ": "formatowanie", "przekreslenie": true },
+        { "typ": "wyrownanie" },
+        { "typ": "rozmiar" },
+        { "typ": "kolor" },
+        { "tytul": "Komentarz", "ikona": "text.bubble", "skrot": "cmd+shift+k" }
+      ]
+    },
+    "Keynote": {
+      "przyciski": [
+        { "tytul": "Odtwórz", "ikona": "play.fill", "zTytulem": true, "kolor": "#2E7D32", "skrot": "alt+cmd+p" },
+        { "tytul": "Slajd", "ikona": "plus.rectangle", "zTytulem": true, "skrot": "cmd+shift+n" },
+        { "typ": "formatowanie" },
+        { "typ": "wyrownanie" },
+        { "typ": "rozmiar" },
+        { "typ": "kolor" },
+        { "tytul": "Na wierzch", "ikona": "square.3.layers.3d.top.filled", "skrot": "cmd+shift+f" }
+      ],
+      "pokaz": [
+        { "tytul": "Poprzedni", "ikona": "chevron.left", "skrot": "left" },
+        { "typ": "slajdy" },
+        { "tytul": "Następny", "ikona": "chevron.right", "skrot": "right" },
+        { "tytul": "Zakończ", "ikona": "stop.fill", "zTytulem": true, "kolor": "#B3261E", "skrot": "esc" }
+      ]
+    },
+    "Numbers": {
+      "przyciski": [
+        { "typ": "cofnij" },
+        { "tytul": "Formuła", "ikona": "function", "skrot": "=" },
+        { "tytul": "Wiersz nad", "ikona": "arrow.up.to.line", "skrot": "alt+up" },
+        { "tytul": "Wiersz pod", "ikona": "arrow.down.to.line", "skrot": "alt+down" },
+        { "tytul": "Kolumna przed", "ikona": "arrow.left.to.line", "skrot": "alt+left" },
+        { "tytul": "Kolumna po", "ikona": "arrow.right.to.line", "skrot": "alt+right" },
+        { "typ": "formatowanie" },
+        { "typ": "wyrownanie" }
+      ]
+    }
+  }
+}
