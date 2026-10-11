@@ -1,5 +1,69 @@
 # iWorkBar – własny Touch Bar dla Pages, Keynote i Numbers
 
+> Touch Bar support for Pages, Numbers and Keynote – brings the Touch Bar back to Apple iWork apps on MacBook Pro. 🇬🇧 English description below.
+
+Własny Touch Bar dla Pages, Keynote i Numbers – przywraca przyciski formatowania, które nowe wersje iWork usunęły.
+
+**Wymagania:** MacBook Pro z Touch Barem, macOS 13 Ventura lub nowszy, Mac z procesorem Apple.
+
+## 🇬🇧 English
+
+**iWorkBar brings the Touch Bar back to Pages, Numbers and Keynote.**
+
+Recent versions of Apple's iWork apps (15.2 and later) no longer support the Touch Bar on
+MacBook Pro. iWorkBar fixes that: whenever Pages, Numbers or Keynote is the active app, your
+Touch Bar shows a set of editing buttons again. When you switch to another app, the Touch Bar
+returns to normal.
+
+**Features**
+- **Pages:** undo/redo, **B I U S**, text alignment, font size (− 12 +), text color, comment.
+- **Numbers:** undo/redo, insert formula, add rows above/below and columns before/after, **B I U**, alignment.
+- **Keynote:** Play, new slide, formatting, alignment, size, color, bring to front.
+  During a slideshow the bar switches to previous · slide numbers · next · end.
+- **Live highlighting:** the Bold/Italic/Underline buttons light up when the cursor is in formatted text,
+  and the size field shows the current font size.
+- **Fully customizable** via a simple JSON file: any keyboard shortcut, menu command or AppleScript
+  can become a Touch Bar button (with SF Symbols icons).
+- Menu bar icon: edit buttons, reload, restore defaults, fix a frozen Touch Bar.
+- **Dialogs:** when an Open, Save or “Keep changes?” window appears, iWorkBar steps aside so macOS shows the dialog’s own buttons (Save · Don’t Save · Cancel) on the Touch Bar.
+
+**Requirements:** MacBook Pro with Touch Bar, Apple silicon, macOS 13 Ventura or later.
+
+**Install:** download **iWorkBar.dmg** from **Releases**, drag iWorkBar to Applications and open it.
+The first time, macOS may warn that the app is not from the App Store – go to
+System Settings → Privacy & Security → **Open Anyway** (or run
+`xattr -dr com.apple.quarantine /Applications/iWorkBar.app`). Then grant the **Accessibility**
+permission when asked (System Settings → Privacy & Security → Accessibility → turn on iWorkBar).
+
+The app's interface and the rest of this README are in Polish.
+
+Made by ks. Piotr Bułka · MIT License
+
+---
+
+## 🇵🇱 Po polsku
+
+## Instalacja – najprościej (gotowy plik)
+
+1. Wejdź w zakładkę **Releases** po prawej stronie tej strony i pobierz plik **iWorkBar.dmg**.
+2. Otwórz pobrany plik i przeciągnij **iWorkBar** na folder **Aplikacje**.
+3. Przy pierwszym uruchomieniu macOS może ostrzec, że programu nie pobrano z App Store
+   (nie jest podpisany certyfikatem Apple). Wtedy:
+   **Ustawienia systemowe → Prywatność i ochrona →** na dole **„Otwórz mimo to”**.
+   Alternatywnie w Terminalu:
+   ```
+   xattr -dr com.apple.quarantine "/Applications/iWorkBar.app"
+   ```
+4. Nadaj uprawnienia, o które poprosi program (opis niżej).
+
+## Instalacja ze źródeł (zbudowanie samemu)
+
+Potrzebne są tylko darmowe narzędzia wiersza poleceń Apple (pełny Xcode nie jest potrzebny).
+Pobierz kod przyciskiem **Code → Download ZIP**, rozpakuj do Pobranych i w Terminalu uruchom
+skrypt `zrob-dmg.sh` z rozpakowanego folderu (szczegóły niżej).
+
+---
+
 Opracował ks. Piotr Bułka
 
 Nowe wersje iWork (15.2 i nowsze) przestały obsługiwać Touch Bar. iWorkBar przywraca
@@ -127,6 +191,13 @@ programu widoczna w Docku.
    (np. „Pogrubienie → wysłano do Keynote” albo „ZABLOKOWANE: brak uprawnienia”).
    Ten plik warto przesłać, gdy coś nadal nie działa.
 
+## Okna dialogowe (wersja 2.3.2)
+
+Gdy Pages, Keynote lub Numbers pokazuje okno dialogowe – okno Otwórz przy uruchamianiu,
+„Czy zachować zmiany?” albo Zapisz przy zamykaniu – iWorkBar chowa swój pasek, a macOS pokazuje
+na Touch Barze **przyciski tego okna** (np. Nie zapisuj · Anuluj · Zapisz). Po zamknięciu okna
+wracają narzędzia pisania. W dzienniku widać, kiedy okno zostało wykryte i dlaczego.
+
 ## Dobrze wiedzieć
 
 - Pokazywanie paska nad innym programem korzysta z nieudokumentowanych funkcji macOS
@@ -136,3 +207,9 @@ programu widoczna w Docku.
   przetrwać kolejne aktualizacje.
 - Gdy przycisk nie działa, Mac wyda krótki dźwięk – zwykle oznacza to błędny skrót albo
   inną nazwę pozycji menu.
+
+## Licencja
+
+MIT – możesz używać, zmieniać i rozpowszechniać, zachowując informację o autorze.
+
+© 2026 ks. Piotr Bułka

@@ -42,6 +42,9 @@ final class TouchBarController: NSObject {
     private var suppressColorUntil = Date.distantPast
     private var loggedFormattingKnown: Bool?
 
+    // Okno dialogowe programu (Zapisz / Nie zapisuj / Anuluj…) – wtedy pasek iWorkBar jest schowany
+    private var dialogHidden = false
+
     /// Nazwa programu, dla którego pasek jest teraz widoczny (do menu na pasku menu).
     private(set) var activeAppName: String?
     var onStateChange: (() -> Void)?
@@ -85,6 +88,8 @@ final class TouchBarController: NSObject {
     private func show(mode newMode: Mode, appName: String, pid: pid_t) {
         guard let config, let appConfig else { return }
         if let old = currentBar { PrivateTouchBar.dismiss(old) }
+        // Nowy pasek – jeśli okno dialogowe nadal jest otwarte, pierwsze sprawdzenie od razu go schowa.
+        dialogHidden = false
 
         mode = newMode
         let buttons = (newMode == .show ? appConfig.pokaz : nil) ?? appConfig.przyciski
@@ -107,6 +112,7 @@ final class TouchBarController: NSObject {
 
     func hide() {
         stopTimer()
+        dialogHidden = false
         if let bar = currentBar { PrivateTouchBar.dismiss(bar) }
         currentBar = nil
         targetPID = nil
@@ -120,7 +126,7 @@ final class TouchBarController: NSObject {
 
     /// Ponownie pokazuje pasek (np. po restarcie procesów Touch Bara).
     func representIfActive() {
-        guard let bar = currentBar, let config else { return }
+        guard !dialogHidden, let bar = currentBar, let config else { return }
         PrivateTouchBar.hideCloseBox()
         PrivateTouchBar.present(bar, fullWidth: config.fullWidth, trayIdentifier: Self.trayID.rawValue)
     }
@@ -306,6 +312,38 @@ final class TouchBarController: NSObject {
 
     // MARK: - Odczyt stanu (co 0,35 s)
 
+    // MARK: - Okna dialogowe (Zapisz, Nie zapisuj, Anuluj, Otwórz…)
+
+    /// true – program pokazuje okno dialogowe (Otwórz, Zapisz, „Zachować zmiany?”).
+    /// Wtedy chowamy pasek iWorkBar, a macOS sam pokazuje na Touch Barze przyciski tego okna
+    /// (Zapisz, Nie zapisuj, Anuluj, Otwórz…) – dokładnie tak, jak przed wyłączeniem Touch Bara w iWork.
+    private func handleDialog(pid: pid_t) -> Bool {
+        guard let found = DialogReader.container(pid: pid) else {
+            if dialogHidden { endDialog() }
+            return false
+        }
+        if !dialogHidden {
+            dialogHidden = true
+            if let bar = currentBar { PrivateTouchBar.dismiss(bar) }
+            Log.write("Okno dialogowe – \(found.1): pasek iWorkBar schowany, przyciski okna pokazuje macOS")
+        }
+        return true
+    }
+
+    /// Okno dialogowe zamknięte – pasek narzędzi budujemy od nowa.
+    private func endDialog() {
+        dialogHidden = false
+        Log.write("Okno dialogowe zamknięte – wraca pasek \(activeAppName ?? "")")
+        if let pid = targetPID, let name = activeAppName {
+            let restoreMode = mode
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.targetPID == pid, !self.dialogHidden else { return }
+                self.show(mode: restoreMode, appName: name, pid: pid)
+            }
+        }
+    }
+
+
     private func startTimer() {
         stopTimer()
         tick = 0
@@ -326,6 +364,9 @@ final class TouchBarController: NSObject {
     private func updateState(force: Bool) {
         guard let pid = targetPID else { return }
         tick += 1
+
+        // Otwarte okno dialogowe → pasek iWorkBar schowany, przyciski okna pokazuje macOS
+        if Actions.isAXTrusted, handleDialog(pid: pid) { return }
 
         // Keynote: przełączanie między paskiem edycji a paskiem pokazu (co ok. 1 s)
         if appConfig?.pokaz != nil, let bundleID = targetBundleID, force || tick % 3 == 0 {
